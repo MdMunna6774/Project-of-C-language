@@ -1,0 +1,331 @@
+#include<stdio.h>
+#include<conio.h>
+#include<string.h>
+
+typedef struct{     //for global varibale
+	char name[50];
+	int bus_num;
+	int num_of_seats;
+}pd;
+
+void  reservation();
+void  viewdetails();
+void  cancel();
+void  contact();
+void  viewticket(char name[],int num_of_seats,int bus_num,float charges);
+float charge(int,int);
+
+void login();
+
+int main()
+
+{
+         FILE *file;    //adding file
+         char ch;
+        file = fopen("bus.txt", "r");
+
+
+             while(!feof(file))
+             {
+                 ch = fgetc (file);
+            printf("%c",ch);
+             }
+           getch();
+
+    system("cls");
+	login();
+	int menu_choice;
+	start:
+	system("cls");
+
+	printf("\t\t**BUS RESERVATION SYSTEM**\n");
+
+	printf("\n\t\t*1 Reserve a Ticket");
+
+	printf("\n\t\t*2 Available Bus");
+
+	printf("\n\t\t*3 Cancel Reservation");
+
+    printf("\n\t\t*4 contact");
+
+	printf("\n\t\t*5 Exit");
+
+	printf("\nEnter your choice:-");
+	scanf("%d",&menu_choice);
+	switch(menu_choice)
+	{
+		case 1:
+			reservation();
+			break;
+		case 2:
+			viewdetails();
+			printf("\n\nPress any key to go to Main Menu...");
+			getch();
+			break;
+		case 3:
+			cancel();
+			break;
+		case 4:
+		    contact();
+		     break;
+		case 5:
+
+			return(0);
+		default:
+			printf("\nInvalid choice");
+	}
+	goto start;
+    fclose(file);
+	return(0);
+}
+
+void viewdetails()
+{
+    system("cls");
+	printf("---------------------------------------------------------------------------------");
+	printf("\nBus.No\t Driver Name\t   Destinations\t\t\tCharges\t\tTime\n");
+	printf("---------------------------------------------------------------------------------");
+	printf("\n 101\t Nahid \t\t   Dhaka to Kurigram  \t\t675 \t\t 9am");
+	printf("\n 102\t james \t\t   Dhaka to Dinajpur  \t\t500 \t\t 12pm");
+	printf("\n 103\t Rafi  \t\t   Dhaka to Chittagong\t\t450 \t\t 8am");
+	printf("\n 104\t Roki  \t\t   Dhaka to Noakhali  \t\t550 \t\t 11am");
+	printf("\n 105\t Ashik \t\t   Chittagong to Dhaka\t\t500 \t\t 7am");
+	printf("\n 106\t Nihan \t\t   Noakhali to Dhaka  \t\t500 \t\t 9.30am");
+    printf("\n 107\t sihab \t\t   Tangail to Dhaka   \t\t550 \t\t 1pm");
+    printf("\n 108\t Sam   \t\t   Dinajpur to Dhaka  \t\t550 \t\t 4pm");
+    printf("\n 109\t Saheb \t\t   Kurigram to Dhaka  \t\t550 \t\t 4pm");
+}
+
+void reservation()
+{
+	char confirm;
+	int i=0;
+	float charges;
+    pd passdetails;
+
+	system("cls");
+	printf("\nEnter Your Name:> ");
+	fflush(stdin);  //function for make space in character
+	gets(passdetails.name);
+
+	printf("\nEnter Number of seats:> ");
+	scanf("%d",&passdetails.num_of_seats);
+	printf("\n\n>>Press Enter To View View Available Bus<< ");
+	getch();
+
+	system("cls");
+	viewdetails();
+	printf("\n\nEnter Bus number:> ");
+	start1:
+	scanf("%d",&passdetails.bus_num);
+
+	if(passdetails.bus_num>=101 && passdetails.bus_num<=109)
+	{
+		charges=charge(passdetails.bus_num,passdetails.num_of_seats);
+		viewticket(passdetails.name,passdetails.num_of_seats,passdetails.bus_num,charges);
+	}
+	else
+	{
+		printf("\nInvalid Bus Number! Enter again--> ");
+		goto start1;
+	}
+
+	printf("\n\nConfirm Ticket (press 'y' for yes/ press 'n' for no):-");
+	start:
+	scanf(" %c",&confirm);
+	if(confirm == 'y')
+	{
+
+		printf("\n Reservation Done\n");
+
+		printf("\nPress any key  go to Main menu:->");
+	}
+	else
+	{
+		if(confirm=='n'){
+			printf("\nReservation Not Done!\nPress any key go to  Main menu:->");
+		}
+		else
+		{
+			printf("\nInvalid choice entered! Enter again:-> ");
+			goto start;
+		}
+	}
+	getch();
+}
+float charge(int bus_num,int num_of_seats)
+{
+		if (bus_num==101)
+	{
+		return(675 *num_of_seats);
+	}
+	if (bus_num==102)
+	{
+		return(500 *num_of_seats);
+	}
+	if (bus_num==103)
+	{
+		return(450 *num_of_seats);
+	}
+	if (bus_num==104)
+	{
+		return(550 *num_of_seats);
+	}
+	if (bus_num==105)
+	{
+		return(500* num_of_seats);
+	}
+	if (bus_num==106)
+	{
+		return(500 *num_of_seats);
+	}
+	if (bus_num==107)
+	{
+		return(550 *num_of_seats);
+	}
+	if (bus_num==108)
+	{
+		return(500* num_of_seats);
+	}
+	if (bus_num==109)
+	{
+		return(550* num_of_seats);
+	}
+
+}
+void viewticket(char name[],int num_of_seats,int bus_num,float charges)
+{
+	system("cls");
+	printf("\tVIEW TICKET\n");
+	printf("\nPassenger Name :\t%s",name);
+	printf("\nNumber Of Seats:\t%d",num_of_seats);
+	printf("\nCharges        :\t%.2f",charges);
+	printf("\nBus Number     :\t%d",bus_num);
+
+
+	if (bus_num==101)
+	{
+		printf("\nDestination    :\tDhaka to Kurigram");
+		printf("\nDeparture      :\t9am ");
+	}
+	if (bus_num==102)
+	{
+		printf("\nDestination    :\tDhaka to Dinajpur");
+		printf("\nDeparture      :\t12pm ");
+	}
+	if (bus_num==103)
+	{
+		printf("\nDestination    :\tDhaka to Chittagong");
+		printf("\nDeparture      :\t8am ");
+	}
+	if (bus_num==104)
+	{
+		printf("\nDestination    :\tDhaka to Chittagong");
+		printf("\nDeparture      :\t8am ");
+	}
+	if (bus_num==105)
+	{
+		printf("\nDestination    :\tChittagong to Dhaka");
+		printf("\nDeparture      :\t7am ");
+	}
+	if (bus_num==106)
+	{
+		printf("\nDestination    :\tNoakhali to Dhaka");
+		printf("\nDeparture      :\t9.30am ");
+	}
+	if (bus_num==107)
+	{
+		printf("\nDestination    :\tTangail to Dhaka ");
+		printf("\nDeparture      :\t1PM ");
+	}
+	if (bus_num==108)
+	{
+		printf("\nDestination    :\tDinajpur to Dhaka");
+		printf("\nDeparture      :\t4pm ");
+	}
+	if (bus_num==109)
+	{
+		printf("\nDestination    :\tKurigram to Dhaka");
+		printf("\nDeparture      :\t4pm ");
+
+	}
+
+
+}
+
+void contact(){
+system("cls");
+
+         FILE *file;
+         char ch;
+         file = fopen("contact.txt", "r");
+
+             while(!feof(file))
+             {
+                 ch = fgetc (file);
+            printf("%c",ch);
+             }
+
+      getch();
+     fclose(file);
+	return(0);
+}
+
+void login(){
+    int i=0;
+    char username[15];
+    char password[12];
+    do
+{
+    printf("\n                            Plase login   \n  ");
+    printf(" \n                       Enter your username: ");
+    scanf("%s",&username);
+	printf(" \n                       Enter your password: ");
+	scanf("%s",&password);
+
+
+  if(strcmp(username,"user")==0 && strcmp(password,"1234")==0)
+	{
+        printf("  \n\n\n    Your login is successful. ");
+        printf("  \n\n\n    Press any key to continue:-");
+        getch();
+       break;
+	}
+	else
+	{
+		printf("\n        Sorry !  Login is unsucessfull");
+		i++;
+		getch();
+		system("cls");
+	}
+}
+	while(i<=2);
+	if (i>2)
+	{
+		printf("\nSorry you h entered the wrong username and password for four times!");
+		getch();
+
+		}
+		system("cls");
+
+}
+
+
+void cancel(){
+         system("cls");
+        int busnum;
+
+		printf("Enter the bus number: \n");
+
+		scanf("%i",&busnum);
+		if(busnum==101){
+            printf("\nSuccessfully cancelled your ticket!");
+		}
+		else{
+            printf("You have entered wrong bus number");
+		}
+		printf("\n\n\nPress any key to go back to  Main menu!");
+		getch();
+}
+
+
